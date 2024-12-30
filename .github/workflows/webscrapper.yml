@@ -1,0 +1,30 @@
+name: "🦅 Add Benfica games to Google Calendar"
+run-name: "Manual script run on ${{ github.ref }} triggered by ${{ github.actor }}"
+on:
+  workflow_dispatch:
+concurrency:
+  group: "Benfica-Webscrapper"
+  cancel-in-progress: false
+
+jobs:
+  run-webscrapper:
+    name: Run Benfica WebScrapper
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - uses: nanasess/setup-chromedriver@v2
+        with:
+          chromedriver-version: '125.0.6422.60'
+      - name: Setup credentials file
+        env:
+          CREDENTIALS: ${{ secrets.CREDENTIALS }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "$CREDENTIALS" > credentials.json
+      - name: Run Webscrapper Script
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 main.py
