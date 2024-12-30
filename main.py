@@ -35,9 +35,16 @@ allowed_sports = [
     'Hóquei em Patins'
 ]
 
-def get_chromedriver():
-    # Initialize browser
-    url='http://www.google.com'
+@dataclass
+class MyGame:
+    date: str
+    location: str
+    competition: str
+    title: str
+    sport: str
+    channels: list[str]
+
+def getChromedriver():
     chrome_path='/usr/bin/google-chrome'
     chrome_options = Options()
     chrome_options.add_argument("--headless=new")
@@ -49,16 +56,7 @@ def get_chromedriver():
     driver = webdriver.Chrome(service=service, options=chrome_options)
     return driver
 
-@dataclass
-class MyGame:
-    date: str
-    location: str
-    competition: str
-    title: str
-    sport: str
-    channels: list[str]
-
-def read_sport_events(driver):
+def readSportsEvents(driver):
     agenda_uri = 'https://www.slbenfica.pt/pt-pt/agora/agenda'
     agenda_item_pattern = re.compile(r'agenda-item-content')
     agenda_item_sport_pattern = re.compile(r'sport')
@@ -180,9 +178,9 @@ def insertGameInCalendar(game, calendarService):
             raise err
 
 def main():
-    driver = get_chromedriver()
+    driver = getChromedriver()
     calendarService = initializeCalendarService()
-    games_list = read_sport_events(driver)
+    games_list = readSportsEvents(driver)
     for game in games_list:
             print(game.date)
             print(game.location)
