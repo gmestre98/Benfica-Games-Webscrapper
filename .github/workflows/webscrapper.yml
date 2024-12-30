@@ -1,6 +1,8 @@
 name: "🦅 Add Benfica games to Google Calendar"
 run-name: "🦅 Add Benfica games to Google Calender triggered by ${{ github.actor }}"
 on:
+  schedule:
+    - cron: "0 */8 * * *"
   workflow_dispatch:
 concurrency:
   group: "Benfica-Webscrapper"
