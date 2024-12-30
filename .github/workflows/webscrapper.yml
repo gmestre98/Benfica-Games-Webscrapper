@@ -1,5 +1,5 @@
 name: "🦅 Add Benfica games to Google Calendar"
-run-name: "Manual script run on ${{ github.ref }} triggered by ${{ github.actor }}"
+run-name: "🦅 Add Benfica games to Google Calender triggered by ${{ github.actor }}"
 on:
   workflow_dispatch:
 concurrency:
