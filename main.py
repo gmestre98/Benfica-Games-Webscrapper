@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from google_auth_oauthlib.flow import InstalledAppFlow
+from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
 publicCalendarId='bdf16b615040c640df2576cac3b80c3ab60c6076621076ff8035fd0ebed7bcd7@group.calendar.google.com'
@@ -36,10 +36,15 @@ allowed_sports = [
 ]
 
 def get_chromedriver():
+    # Initialize browser
+    url='http://www.google.com'
+    chrome_path='/usr/bin/google-chrome'
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless=new")
+    chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.binary_location = "/usr/bin/google-chrome"
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.binary_location = chrome_path
     service = Service("/usr/bin/chromedriver")
     driver = webdriver.Chrome(service=service, options=chrome_options)
     return driver
@@ -88,13 +93,12 @@ def read_sport_events(driver):
     return games_list
 
 def initializeCalendarService():
-    local_server_port = 60443
     SCOPES = ["https://www.googleapis.com/auth/calendar"]
-    flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
-    creds = flow.run_local_server(port=local_server_port)
-    with open("token.json", "w") as token:
-        token.write(creds.to_json())
-    service = build("calendar", "v3", credentials=creds)
+    SERVICE_ACCOUNT_FILE = 'service_account.json'
+
+    credentials = service_account.Credentials.from_service_account_file(
+        SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    service = build("calendar", "v3", credentials=credentials)
     return service
 
 def constructISODateTime(date, timeDuration):

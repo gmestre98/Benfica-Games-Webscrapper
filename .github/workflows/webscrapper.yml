@@ -9,14 +9,15 @@ concurrency:
 jobs:
   run-webscrapper:
     name: Run Benfica WebScrapper
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install Chromedriver
-        uses: nanasess/setup-chromedriver@v2
+      - name: Install Chrome and Chromedriver
+        uses: browser-actions/setup-chrome@v1
         with:
-          chromedriver-version: '125.0.6422.60'
+          chrome-version: '125.0.6422.60'
+          install-chromedriver: true
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -30,11 +31,11 @@ jobs:
           pip install -r requirements.txt
       - name: Set up credentials file
         env:
-          CREDENTIALS: ${{ secrets.CREDENTIALS }}
+          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
         shell: bash
         run: |
           set -euo pipefail
-          echo "$CREDENTIALS" > credentials.json
+          echo "$SERVICE_ACCOUNT" > service_account.json
       - name: Run Webscrapper Script
         shell: bash
         run: |
