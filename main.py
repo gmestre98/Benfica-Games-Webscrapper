@@ -74,7 +74,7 @@ def readSportsEvents(driver):
             continue
         location = element.find('p', class_=agenda_item_location_pattern).text.strip()
         title = element.find('p', class_=agenda_item_match_pattern).text.strip()
-        if "vs" not in title: # Events that don't have a vs are not real games
+        if 'vs' not in title: # Events that don't have a vs are not real games
             continue
         competition = element.find('p', class_=agenda_item_competition_pattern).text.strip()
         if 'Sub' in competition: # Skip youth games
