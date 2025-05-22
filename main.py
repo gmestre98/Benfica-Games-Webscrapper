@@ -79,6 +79,8 @@ def readSportsEvents(driver):
         competition = element.find('p', class_=agenda_item_competition_pattern).text.strip()
         if 'Sub' in competition: # Skip youth games
             continue
+        if 'Sevens' in competition and 'Futebol' in sport:
+            continue
         date = element.find('div', attrs={'class': agenda_item_date_pattern}).text.strip()
         img_tags = element.find_all('img')
         channels = []
