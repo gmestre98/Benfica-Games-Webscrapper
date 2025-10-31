@@ -107,7 +107,7 @@ def constructISODateTime(date, timeDuration):
     input_format = "%m/%d/%Y %H:%M:%S"
 
     start_time = datetime.strptime(date, input_format)
-    start_time = start_time.replace(tzinfo=timezone(offset=timedelta(hours=1)))
+    start_time = start_time.replace(tzinfo=timezone(offset=timedelta(hours=2)))
     end_time = start_time + timedelta(hours=timeDuration)
     
     iso_format_start = start_time.isoformat()
