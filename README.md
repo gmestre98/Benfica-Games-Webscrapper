@@ -10,3 +10,5 @@ You can access the the calendar [here](https://calendar.google.com/calendar/u/0?
 
 For ideas or requests for implementation you can create a Github Issue.
 For requests to contribute you can or email goncalo.mestre1998@gmail.com.
+
+NOTE: Comment to trigger activity to keep the workflow working #1
